@@ -1,2 +1,2 @@
-# cpp-template
-Template Repo
+# cpp course
+Home work
