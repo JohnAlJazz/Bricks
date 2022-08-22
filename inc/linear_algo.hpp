@@ -11,18 +11,22 @@ void Print(C const& a_container) {
     typedef typename C::const_iterator Iter;
     Iter begin = a_container.begin();
     Iter end = a_container.end();
+    if(begin == end) {
+        std::cout << "{}" << '\n';
+        return;
+    }
     while(begin != end - 1) {
         std::cout << *begin++ << ", ";
     }
-    std::cout << *begin;
-    std::cout << '\n';
+    std::cout << *begin << '\n';    
 }
+
 
 std::vector<double> CreateChaos(int a_number) {
     srand(time(NULL));
     std::vector<double> vec;
     for(int i = 0; i < a_number; ++i) {
-        double randD = ((double) rand() * (100) / (double)RAND_MAX);
+        double randD = ((double) rand() * 10 / (double)RAND_MAX);
         vec.push_back(randD);
     }    
     return vec;
@@ -91,7 +95,7 @@ MinMax<typename C::value_type> Extreme(C const& a_container) {
     typedef typename C::const_iterator Iter;
     Iter begin = a_container.begin();
     Iter end = a_container.end();
-    Iter max = begin != end ? begin++ : begin;
+    Iter max = begin != end ? begin++ : begin; 
     Iter min = max;
     while(begin != end) {
         if(*begin >= *max) {
