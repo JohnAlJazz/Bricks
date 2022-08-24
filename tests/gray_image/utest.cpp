@@ -8,7 +8,6 @@ GrayImage img(400, 300);
 ASSERT_EQUAL(img.GetHeight(), 300);
 ASSERT_EQUAL(img.GetWidth(), 400);
 ASSERT_THAT(img.GetColorDepth() == 15 && img.GetPixelValue() == 15);
-img.PrintMatrix();
 END_TEST
 
 BEGIN_TEST(create_image2)
@@ -23,14 +22,12 @@ GrayImage img(400, 300, 255, 4);
 ASSERT_EQUAL(img.GetHeight(), 300);
 ASSERT_EQUAL(img.GetWidth(), 400);
 ASSERT_THAT(img.GetColorDepth() == 255 && img.GetPixelValue() == 4);
-img.PrintMatrix();
+
 END_TEST
 
 BEGIN_TEST(clear)
 GrayImage img(400, 300, 255, 4);
-img.PrintMatrix();
 img.Clear(5);
-img.PrintMatrix();
 ASSERT_THAT(img.GetPixelValue() == 5);
 ASSERT_PASS();
 END_TEST
@@ -68,13 +65,13 @@ END_TEST
 
 BEGIN_SUITE(Its what you learn after you know it all that counts)
 	TEST(create_image)
-    // TEST(create_image2)
-    // TEST(create_image3)
-    //  TEST(clear)
-    // TEST(EqOperator)
-    // TEST(EqOperator2)
-    // TEST(AndOperator)
-    // TEST(OrOperator)
+    TEST(create_image2)
+    TEST(create_image3)
+     TEST(clear)
+    TEST(EqOperator)
+    TEST(EqOperator2)
+    TEST(AndOperator)
+    TEST(OrOperator)
     TEST(saveToFile)
      		
 END_SUITE
