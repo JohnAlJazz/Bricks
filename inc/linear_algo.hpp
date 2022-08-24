@@ -64,6 +64,8 @@ int CountAboveAverage(C const& a_container) {
     return aboveAvg;    
 }
 
+
+// complexity O2n
 std::vector<int>& OddsOut(std::vector<int>& a_vec) {
     typedef typename std::vector<int>::const_iterator Itr;
     Itr begin = a_vec.begin();   
