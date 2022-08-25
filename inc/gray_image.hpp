@@ -1,71 +1,65 @@
 #ifndef GRAY_IMAGE_H__
 #define GRAY_IMAGE_H__
 
-#include <stddef.h>/*size_t*/
+#include <stddef.h>/*int*/
 #include <vector>
 #include <stdio.h>
 
-
-namespace experis{
-
 namespace gfx{
 
-typedef std::vector<std::vector<int>> Matrix;
+
 
 class GrayImage{
 public:
-    GrayImage(size_t a_width, size_t a_height) noexcept;
-    GrayImage(size_t a_width, size_t a_height, size_t a_colorDepth) noexcept;
-    GrayImage(size_t a_width, size_t a_height, size_t a_colorDepth, size_t a_initValue) noexcept;
+
+    typedef int PixelType;
+    typedef std::vector<PixelType> Matrix;
+    GrayImage(int a_width, int a_height, int a_colorDepth = 15)  noexcept;    
+    GrayImage(int a_width, int a_height, int a_colorDepth, int a_initValue) noexcept;
     GrayImage(const GrayImage& a_other) = default;
     GrayImage& operator=(const GrayImage& a_other) = default;
     ~GrayImage() = default; 
 
-    inline void SetPixelValues(size_t a_values) {m_PixelValue = a_values;};
-    inline size_t GetHeight() const noexcept{return m_height;};
-    inline size_t GetWidth() const noexcept {return m_width;};
-    inline size_t GetColorDepth() const noexcept{return m_colorDepth;};
-    inline size_t GetPixelValue() const noexcept{return m_PixelValue;};
-    inline Matrix GetMatrix() const noexcept {return m_matrix;};
-    inline void SetMatrix(Matrix a_matrix) noexcept {m_matrix = a_matrix;};
+    int GetHeight() const noexcept;
+    int GetWidth() const noexcept;
+    int GetColorDepth() const noexcept;
+    int GetPixelValue() const noexcept;
+    Matrix GetMatrix() const noexcept;
+    void SetMatrix(Matrix a_matrix) noexcept;
 
-    inline void Clear() noexcept {
-        Clear(0);
-    }
-    void Clear(size_t a_color) noexcept;
+
+    PixelType& at(int a_h, int a_w);
+    PixelType const& at(int a_h, int a_w) const;
+
+    void Clear() noexcept;
+    void Clear(int a_color) noexcept;
 
     GrayImage& operator&=(const GrayImage& a_other) noexcept;
     GrayImage& operator|=(const GrayImage& a_other) noexcept;
     GrayImage& operator^=(const GrayImage& a_other) noexcept;
-    inline GrayImage operator&(const GrayImage& a_other) const noexcept {
-    GrayImage img(*this); return img &= a_other;}
-    inline GrayImage operator|(const GrayImage& a_other) const noexcept {
-    GrayImage img(*this); return img |= a_other;}
-    inline GrayImage operator^(const GrayImage& a_other) const noexcept {
-    GrayImage img(*this); return img ^= a_other;}
+    GrayImage operator&(const GrayImage& a_other) const noexcept;
+    GrayImage operator|(const GrayImage& a_other) const noexcept;
+    GrayImage operator^(const GrayImage& a_other) const noexcept;
 
-    void SaveImageToFile(const char* a_file);
+    void SaveImageToFile(const char* a_file);    
     void PrintMatrix();
 
 private:
-    size_t m_width;
-    size_t m_height;
-    size_t m_colorDepth;
-    size_t m_PixelValue;
+    int m_width;
+    int m_height;
+    int m_colorDepth;
+    int m_PixelValue;
     Matrix m_matrix;    
 };
 
+GrayImage ReadImageFromFile(const char* a_image);
 
-inline bool operator==(const GrayImage& a_first, const GrayImage& a_second) {
-    return a_first.GetColorDepth() == a_second.GetColorDepth() && a_first.GetMatrix() == a_second.GetMatrix();
-}
-inline bool operator!=(const GrayImage& a_first, const GrayImage& a_second) {
-    return !(a_first == a_second);
-}
+bool operator==(const GrayImage& a_first, const GrayImage& a_second); 
+bool operator!=(const GrayImage& a_first, const GrayImage& a_second);
+
+
+#include "inl/gray_image.hxx"
 
 } //gfx
-
-} //experis
-
 
 #endif //
