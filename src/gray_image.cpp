@@ -15,7 +15,7 @@ GrayImage::GrayImage(int a_width, int a_height, int a_colorDepth) noexcept
 , m_height(a_height)
 , m_colorDepth(a_colorDepth)
 , m_PixelValue(a_colorDepth) 
-, m_matrix(InitMatrix(a_width, a_height, m_PixelValue)) {}
+, m_matrix(InitMatrix(a_width, a_height, 0)) {}
 
 
 GrayImage::GrayImage(int a_width, int a_height, int a_colorDepth = 15, int a_initValue = 15) noexcept
@@ -77,8 +77,8 @@ GrayImage& GrayImage::operator^=(const GrayImage& a_other) noexcept {
 }
  
 void GrayImage::PrintMatrix() {
-    for(int i = 0; i < m_width; ++i) {
-        for(int j = 0; j < m_height; ++j) {
+    for(int i = 0; i < m_height; ++i) {
+        for(int j = 0; j < m_width; ++j) {
             std::cout << at(i, j) << " ";            
         }
         std::cout << '\n';

@@ -31,8 +31,7 @@ public:
     PixelType& at(int a_h, int a_w);
     PixelType const& at(int a_h, int a_w) const;
 
-    void Clear() noexcept;
-    void Clear(int a_color) noexcept;
+    void Clear(int a_color = 0) noexcept;
 
     GrayImage& operator&=(const GrayImage& a_other) noexcept;
     GrayImage& operator|=(const GrayImage& a_other) noexcept;
