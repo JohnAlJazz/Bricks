@@ -4,9 +4,11 @@
 #include "graphic_shape.hpp"
 #include <vector>
 
+
 class Point {
 public:
-    Point(int a_x, int a_y) : m_x(a_x), m_y(a_y) {}
+    Point(int a_x, int a_y);
+
     int m_x;
     int m_y;
 };
@@ -20,8 +22,7 @@ public:
     ~Line() = default;
 
     void Draw(gfx::GrayImage& a_img, int width, int color);
-    virtual void Erase(gfx::GrayImage& a_img);
-
+    
 private:
     Point m_p1;
     Point m_p2;        
@@ -37,8 +38,7 @@ public:
     ~Circle() = default;
 
     void Draw(gfx::GrayImage& a_image, int a_width, int a_color);
-    virtual void Erase(gfx::GrayImage& a_img);
-
+    
 private:
     int m_radius; 
     Point m_center;     
@@ -54,8 +54,7 @@ public:
     ~Square() = default;    
 
     void Draw(gfx::GrayImage&, int width, int color);
-    virtual void Erase(gfx::GrayImage& a_img);
-
+    
 private:
     Point m_point;
     int m_sideLength;    
@@ -65,18 +64,18 @@ private:
 class ComplexShape : public AbstractGraphicShape {
 public:
     ComplexShape() = default;
-    ComplexShape(const std::vector<Line> a_lines, const std::vector<Circle> a_circles, const std::vector<Square> a_squares);
     ComplexShape(const ComplexShape& a_square) = default;
     ComplexShape& operator=(const ComplexShape& a_square) = default;
     ~ComplexShape() = default;
 
+    void Add(AbstractGraphicShape& a_shape);
     void Draw(gfx::GrayImage& a_img, int a_width, int a_color);
-    virtual void Erase(gfx::GrayImage& a_img);
-
+   
 private:
-    std::vector<Line> m_lines;
-    std::vector<Circle> m_circles;
-    std::vector<Square> m_squares; 
+    std::vector<AbstractGraphicShape*> m_shapes;
 };
 
 #endif //GRAPHS_H__
+
+
+

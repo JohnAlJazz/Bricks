@@ -3,35 +3,40 @@
 #include <iostream>
 #include <stddef.h> /*size_t*/
 #include <vector>
+#include <algorithm>
+
+
+Point::Point(int a_x, int a_y)
+: m_x(a_x)
+, m_y(a_y)
+{}
+
 
 Line::Line(Point a_p1, Point a_p2) noexcept 
 : m_p1(a_p1) 
-, m_p2(a_p2) {}
+, m_p2(a_p2) 
+{}
+
 
 void Line::Draw(gfx::GrayImage& a_image, int a_width, int a_color) {
-    int Xdelta = m_p2.m_x - m_p1.m_x;
-    int Ydelta = m_p2.m_y - m_p1.m_y; 
+    int xdelta = m_p2.m_x - m_p1.m_x;
+    int ydelta = m_p2.m_y - m_p1.m_y; 
     for(int i = 0; i < a_width; ++i) {
-        if(abs(Xdelta) >= (Ydelta)) {
+        if(abs(xdelta) >= (ydelta)) {
             for(int x = m_p1.m_x; x < m_p2.m_x; ++x) {
-                int y = m_p1.m_y + i + Ydelta * (x - m_p1.m_x) / Xdelta;
+                int y = m_p1.m_y + i + ydelta * (x - m_p1.m_x) / xdelta;
                 a_image.at(y, x) = a_color;
             }
         }      
         else {
              for(int y = m_p1.m_y; y < m_p2.m_y; ++y) {
-                int x = m_p1.m_x + i + Xdelta * (y - m_p1.m_y) / Ydelta;
+                int x = m_p1.m_x + i + xdelta * (y - m_p1.m_y) / ydelta;
                 a_image.at(y, x) = a_color;
             }
         }
     }     
-    a_image.SaveImageToFile("line");
 }
 
-void Line::Erase(gfx::GrayImage& a_img) {
-    a_img.Clear(); 
-    a_img.SaveImageToFile("line");   
-}
 
 
 Circle::Circle(int a_radius, Point a_center) noexcept 
@@ -65,13 +70,7 @@ void Circle::Draw(gfx::GrayImage& a_image, int a_width, int a_color) {
         a_image.at(m_center.m_y - y, m_center.m_x + x) = a_color;  
         a_image.at(m_center.m_y + y, m_center.m_x - x) = a_color;  
         a_image.at(m_center.m_y - y, m_center.m_x - x) = a_color;  
-    } 
-    a_image.SaveImageToFile("circle");
-}
-
-void Circle::Erase(gfx::GrayImage& a_img){
-    a_img.Clear();
-    a_img.SaveImageToFile("circle");
+    }     
 }
 
 
@@ -89,69 +88,27 @@ void Square::Draw(gfx::GrayImage& a_image, int a_width, int a_color) {
             a_image.at(m_point.m_y + x - i, m_point.m_x + m_sideLength + i) = a_color;           
         }        
         len += 2;
-    }
-    a_image.SaveImageToFile("square");
-}
-
-void Square::Erase(gfx::GrayImage& a_img){
-    a_img.Clear();
-    a_img.SaveImageToFile("square");
+    }    
 }
 
 
-ComplexShape::ComplexShape(const std::vector<Line> a_lines, const std::vector<Circle> a_circles, const std::vector<Square> a_squares)
-: m_lines(a_lines)
-, m_circles(a_circles)
-, m_squares(a_squares) {}
-
-
-void ComplexShape::Draw(gfx::GrayImage& a_image, int a_width, int a_color) {    
-    size_t linesLength = m_lines.size();
-    size_t circlesLength = m_circles.size();
-    size_t squaresLength = m_squares.size(); 
-    
-    for(size_t i = 0; i < linesLength; ++i) {
-        m_lines[i].Draw(a_image, a_width, a_color);
-    }
-    for(size_t i = 0; i < circlesLength; ++i) {
-        m_circles[i].Draw(a_image, a_width, a_color);
-    }
-    for(size_t i = 0; i < squaresLength; ++i) {
-        m_squares[i].Draw(a_image, a_width, a_color);
-    }
-    a_image.SaveImageToFile("complex shape");
-}
-
-void ComplexShape::Erase(gfx::GrayImage& a_img){
-     size_t linesLength = m_lines.size();
-    size_t circlesLength = m_circles.size();
-    size_t squaresLength = m_squares.size(); 
-    for(size_t i = 0; i < linesLength; ++i) {
-        m_lines[i].Erase(a_img);
-    }
-    for(size_t i = 0; i < circlesLength; ++i) {
-        m_circles[i].Erase(a_img);
-    }
-    for(size_t i = 0; i < squaresLength; ++i) {
-        m_squares[i].Erase(a_img);
-    } 
-    a_img.SaveImageToFile("complex shape");
+void ComplexShape::Add(AbstractGraphicShape& a_shape) {
+    m_shapes.push_back(&a_shape);
 }
 
 
+void ComplexShape::Draw(gfx::GrayImage& a_image, int a_width, int a_color) {  
 
+    struct DrawShape{
+        gfx::GrayImage& img;
+        int width;
+        int color;
+        void operator()(AbstractGraphicShape* a_shape) {
+            a_shape->Draw(img, width, color);
+        }
+    };
+    for_each(m_shapes.begin(), m_shapes.end(), DrawShape{a_image, a_width, a_color});   
+}
 
-
-
-// void drawCircle(gfx::GrayImage& a_image, int xc, int yc, int x, int y, int a_color) {
-//     a_image.at(xc+x, yc+y) = a_color;
-//     a_image.at(xc-x, yc+y) = a_color;
-//     a_image.at(xc+x, yc-y) = a_color;
-//     a_image.at(xc-x, yc-y) = a_color;
-//     a_image.at(xc+y, yc+x) = a_color;
-//     a_image.at(xc-y, yc+x) = a_color;
-//     a_image.at(xc+y, yc-x) = a_color;
-//     a_image.at(xc-y, yc-x) = a_color;
-// }
 
 
