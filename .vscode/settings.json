@@ -35,6 +35,8 @@
         "utility": "cpp",
         "list": "cpp",
         "functional": "cpp",
-        "numeric": "cpp"
+        "numeric": "cpp",
+        "deque": "cpp",
+        "map": "cpp"
     }
 }
