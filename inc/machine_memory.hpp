@@ -29,8 +29,7 @@ private:
 
 #include "inl/machine_memory.hxx"
 
-}//
+} //machineStack
 
 
-
-#endif //
+#endif // MACHINE_MEMORY_H__

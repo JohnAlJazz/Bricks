@@ -15,7 +15,7 @@ public:
     ~CodeSegment() = default;
 
     void MoveIndex(int64_t a_num);
-    int64_t Read(int64_t a_num);
+    int64_t Read();
     // int64_t const Index();
     bool IsProgramEnded();
 
@@ -24,6 +24,7 @@ private:
     int64_t m_index;
 };
 
+#include "inl/machine_code_segment.hxx"
 
 }
 #endif //MACHINE_CODE_SEGMENT_H__
