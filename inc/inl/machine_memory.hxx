@@ -1,5 +1,5 @@
 
-
+#include "machine_memory.hpp"
 
 inline void MachineMemory::CheckIndex(int64_t a_idx) {
     if(a_idx >= static_cast<int64_t>(m_memory.capacity())) {

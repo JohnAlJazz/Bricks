@@ -2,6 +2,7 @@
 #define MACHINE_EXCEPTIONS_H__
 
 #include "machine_exceptions.hpp"
+#include <iostream>
 
 namespace machineStack {
 

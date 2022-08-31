@@ -22,9 +22,26 @@ private:
     std::stack<int64_t> m_machineStack;
 };
 
-#include "inl/machine_stack.hxx"
+class MachineStackIP {
+public:
+    MachineStackIP(std::stack<int64_t> a_stk);
+    MachineStackIP(const MachineStackIP& a_other) = default;
+    MachineStackIP& operator=(const MachineStackIP& a_other) = default;
+    ~MachineStackIP() = default;
+
+    void Add(int64_t a_element);
+    int64_t Remove();
+    int64_t Top();
+
+private:
+    std::stack<int64_t> m_machineStackIp;
+};
+
+
 
 } //machineStack
+
+#include "inl/machine_stack.hxx"
 
 
 #endif //

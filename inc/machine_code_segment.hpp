@@ -15,6 +15,7 @@ public:
     ~CodeSegment() = default;
 
     void MoveIndex(int64_t a_num);
+    void SetIndex(int64_t a_num);
     int64_t Read();
     // int64_t const Index();
     bool IsProgramEnded();

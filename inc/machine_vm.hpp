@@ -12,14 +12,16 @@ namespace machineStack{
 
 class MachineVm {
 public:
+    typedef std::stack<int64_t> Stack;
     MachineVm() = delete;
-    MachineVm(std::vector<int64_t> a_forCodeSegment, std::stack<int64_t> a_stack, unsigned int a_capacity);
+    MachineVm(std::vector<int64_t> a_forCodeSegment, Stack a_stack, unsigned int a_capacity, Stack a_stackIp);
     ~MachineVm() = default;
     MachineVm(const MachineVm& a_other) = default;
     MachineVm& operator=(MachineVm& a_other) = default;
 
     void Run();
     int64_t Top();
+    int64_t GetMemory(int64_t a_idx);
 
 private:
     CodeSegment m_codeSegment;
@@ -27,6 +29,7 @@ private:
     Map m_executer;
     MachineStack m_stack;
     MachineMemory m_memory;
+    MachineStack m_stackIp;
 
 private:
     Map InitMap();

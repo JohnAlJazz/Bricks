@@ -12,9 +12,7 @@ public:
     explicit MachineMemory(unsigned int a_capacity);
     MachineMemory(const MachineMemory& a_other) = default;
     MachineMemory& operator=(const MachineMemory& a_other) = default;
-    ~MachineMemory() = default;
-
-   
+    ~MachineMemory() = default;   
 
     int64_t Read(int64_t a_index);
     void Write(int64_t a_value, int64_t a_index);      

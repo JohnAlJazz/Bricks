@@ -6,7 +6,6 @@
 #include <exception>
 
 
-// #include "machine_abstract_executer.hpp"
 namespace machineStack {
 
 class AbstractSMError : public std::exception {
@@ -28,6 +27,7 @@ public:
     StackError(const char* a_fn, const char* a_what);
 };
 }
+
 #include "inl/machine_exceptions.hxx"
 
 
