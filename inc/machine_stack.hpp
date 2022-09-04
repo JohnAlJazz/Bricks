@@ -3,7 +3,7 @@
 
 #include <stack>
 #include <cstdint> /*int64_t*/
-#include "machine_abstract_executer.hpp"
+#include "machine_abstract_OpCode.hpp"
 
 namespace machineStack {
 
@@ -17,6 +17,7 @@ public:
     void Add(int64_t a_element);
     int64_t Remove();
     int64_t Top();
+    int Size() const noexcept;
 
 private:
     std::stack<int64_t> m_machineStack;

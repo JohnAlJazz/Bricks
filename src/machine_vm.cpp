@@ -1,7 +1,7 @@
 #include <map>
 
 #include "machine_executer.hpp"
-#include "machine_abstract_executer.hpp"
+#include "machine_abstract_OpCode.hpp"
 #include "machine_vm.hpp"
 #include "machine_stack.hpp"
 #include "machine_code_segment.hpp"
@@ -10,7 +10,7 @@
 
 namespace machineStack {
 
- typedef std::map<int64_t, AbstractExecuter*> Map;
+ typedef std::map<int64_t, AbstractOpCode*> Map;
  typedef std::stack<int64_t> Stack;
 
 
@@ -36,10 +36,10 @@ void MachineVm::Run() {
     while(i == 0 && ! m_codeSegment.IsProgramEnded()) {
         int64_t opCode = m_codeSegment.Read();
         Map::const_iterator pos = m_executer.find(opCode);
-        AbstractExecuter* value = pos->second;
+        AbstractOpCode* value = pos->second;
 
             try{
-                value->operate();
+                value->operator()();
             }
             catch (StackError const& e) {
                 e.print();

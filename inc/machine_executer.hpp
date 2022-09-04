@@ -2,7 +2,7 @@
 #define MACHINE_EXECUTER_H__
 
 #include "machine_stack.hpp"
-#include "machine_abstract_executer.hpp"
+#include "machine_abstract_OpCode.hpp"
 #include "machine_exceptions.hpp"
 #include "machine_memory.hpp"
 #include "machine_code_segment.hpp"
@@ -11,7 +11,7 @@
 
 namespace machineStack{
 
-class Nop : public AbstractExecuter {
+class Nop : public AbstractOpCode {
 public:
     explicit Nop(CodeSegment& a_code)
     : m_code(a_code)
@@ -28,115 +28,9 @@ private:
     CodeSegment& m_code;   
 };
 
-class Add : public AbstractExecuter {
-public:
-    explicit Add(MachineStack& a_stack, CodeSegment& a_code)
-    : m_stack(a_stack)
-    , m_code(a_code)
-    {}
-    ~Add() = default;
-    Add(const Add& a_other) = default;
-    Add& operator=(const Add& a_other) = default;
 
-    void operate() {        
-        int64_t a = m_stack.Remove();
-        int64_t b = m_stack.Remove();
-        m_stack.Add(a + b); 
-        m_code.MoveIndex(1);               
-    };
-private:
-    MachineStack& m_stack;
-    CodeSegment& m_code;
-};
-
-class Sub : public AbstractExecuter {
-public:
-    explicit Sub(MachineStack& a_stack, CodeSegment& a_code)
-    : stack(a_stack)
-    , m_code(a_code)
-    {} 
-    ~Sub() = default;
-    Sub(const Sub& a_other) = default;
-    Sub& operator=(const Sub& a_other) = default;
-
-    void operate() {
-        int64_t a = stack.Remove();
-        int64_t b = stack.Remove();
-        stack.Add(a - b);
-        m_code.MoveIndex(1);
-    };
-private:
-    MachineStack& stack;
-    CodeSegment& m_code;
-};
-
-class And : public AbstractExecuter {
-public:
-    And(MachineStack& a_stack, CodeSegment& a_code)
-    : m_stack(a_stack)
-    , m_code(a_code)
-    {}
-
-    ~And() = default;
-    And(const And& a_other) = default;
-    And& operator=(const And& a_other) = default;
-    void operate() {
-        int64_t a = m_stack.Remove();
-        int64_t b = m_stack.Remove(); 
-        m_stack.Add(a & b);
-        m_code.MoveIndex(1);
-    }
-
-private:
-    MachineStack& m_stack;
-    CodeSegment& m_code;
-};
-
-class Or : public AbstractExecuter {
-public:
-    Or(MachineStack& a_stack, CodeSegment& a_code)
-    : m_stack(a_stack)
-    , m_code(a_code)
-    {}
-    
-    ~Or() = default;
-    Or(const Or& a_other) = default;
-    Or& operator=(const Or& a_other) = default;
-    void operate() {
-        int64_t a = m_stack.Remove();
-        int64_t b = m_stack.Remove(); 
-        m_stack.Add(a | b);
-        m_code.MoveIndex(1);
-    }
-
-private:
-    MachineStack& m_stack;
-    CodeSegment& m_code;
-};
-
-class Xor : public AbstractExecuter {
-public:
-    Xor(MachineStack& a_stack, CodeSegment& a_code)
-    : m_stack(a_stack)
-    , m_code(a_code)
-    {}
-    
-    ~Xor() = default;
-    Xor(const Xor& a_other) = default;
-    Xor& operator=(const Xor& a_other) = default;
-    void operate() {
-        int64_t a = m_stack.Remove();
-        int64_t b = m_stack.Remove(); 
-        m_stack.Add(a ^ b);
-        m_code.MoveIndex(1);
-    }
-
-private:
-    MachineStack& m_stack;
-    CodeSegment& m_code;
-};
-
-class Not : public AbstractExecuter {
+ 
+class Not : public AbstractOpCode {
 public:
     Not(MachineStack& a_stack, CodeSegment& a_code)
     : m_stack(a_stack)
@@ -157,7 +51,7 @@ private:
     CodeSegment& m_code;
 };
 
-class In : public AbstractExecuter {
+class In : public AbstractOpCode {
 public:
     In(MachineStack& a_stack, CodeSegment& a_code)
     : m_stack(a_stack)
@@ -179,7 +73,7 @@ private:
     CodeSegment& m_code;  
 };
 
-class Out : public AbstractExecuter {
+class Out : public AbstractOpCode {
 public:
     Out(MachineStack& a_stack, CodeSegment& a_code)
     : m_stack(a_stack)
@@ -203,7 +97,7 @@ private:
 };
 
 
-class Load : public AbstractExecuter {
+class Load : public AbstractOpCode {
 public:
     Load(MachineStack& a_stack, CodeSegment& a_code, MachineMemory& a_memory)
     : m_stack(a_stack)
@@ -227,7 +121,7 @@ private:
 };
 
 
-class Stor : public AbstractExecuter {
+class Stor : public AbstractOpCode {
 public:
     Stor(MachineStack& a_stack, CodeSegment& a_code, MachineMemory& a_memory)
     : m_stack(a_stack)
@@ -251,7 +145,7 @@ private:
 };
 
 
-class Jmp : public AbstractExecuter {
+class Jmp : public AbstractOpCode {
 public:
     Jmp(MachineStack& a_stack, CodeSegment& a_code)
     : m_stack(a_stack)
@@ -271,7 +165,7 @@ private:
 };
 
 
-class PUSHIP : public AbstractExecuter {
+class PUSHIP : public AbstractOpCode {
 public:
     PUSHIP(MachineStackIP& a_stackIp, CodeSegment& a_code)
     : m_stackIp(a_stackIp)
@@ -292,7 +186,7 @@ private:
     CodeSegment& m_code;  
 };
 
-class DROPIP : public AbstractExecuter {
+class DROPIP : public AbstractOpCode {
 public:
     DROPIP(MachineStackIP& a_stackIp, CodeSegment& a_code)
     : m_stackIp(a_stackIp)

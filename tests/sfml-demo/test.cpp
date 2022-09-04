@@ -5,7 +5,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(1000, 1000), "SFML works!");
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color::Green);
-    shape.setPosition(400, 400);
+    shape.setPosition(400, 600);
     sf::RectangleShape rectangle(sf::Vector2f(350.f, 120.f));
     rectangle.setPosition(400, 400);
     

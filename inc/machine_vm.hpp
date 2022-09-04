@@ -3,7 +3,7 @@
 
 #include <map>
 #include "machine_code_segment.hpp"
-#include "machine_abstract_executer.hpp"
+#include "machine_abstract_OpCode.hpp"
 #include "machine_memory.hpp"
 #include "machine_stack.hpp"
 
@@ -25,7 +25,7 @@ public:
 
 private:
     CodeSegment m_codeSegment;
-    typedef std::map<int64_t, AbstractExecuter*> Map;
+    typedef std::map<int64_t, AbstractOpCode*> Map;
     Map m_executer;
     MachineStack m_stack;
     MachineMemory m_memory;
