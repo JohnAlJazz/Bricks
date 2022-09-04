@@ -40,4 +40,8 @@ inline int64_t MachineStackIP::Top() {
     return m_machineStackIp.top();
 }
 
+inline int MachineStack::Size() const noexcept {
+    return m_machineStack.size();
+}
+
 }//
