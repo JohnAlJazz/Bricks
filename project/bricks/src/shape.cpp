@@ -13,6 +13,10 @@ Shape::~Shape() {
     // delete m_shape;
 }
 
+sf::FloatRect Shape::GetGlobalBounds() {
+    return m_shape->getGlobalBounds();    
+}
+
 
 
 

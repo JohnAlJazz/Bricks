@@ -15,6 +15,7 @@ public:
     void SetShapeColor(const sf::Color &a_color) override;
     void SetShapePosition(float a_xPos, float a_yPos) override;
     void Draw(sf::RenderWindow& a_window);
+    sf::FloatRect GetGlobalBounds();
 
 // protected:
     float xPos();

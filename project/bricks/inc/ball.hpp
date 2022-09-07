@@ -12,7 +12,7 @@ public:
     Ball& operator=(const Ball&) = default;
     ~Ball() = default;
    
-    void Move(size_t a_width, size_t a_height);
+    void Move(Shape& a_object, size_t a_width, size_t a_height);
 
 private:
     float m_xVelocity;

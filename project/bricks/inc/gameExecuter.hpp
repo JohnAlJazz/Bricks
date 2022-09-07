@@ -11,7 +11,9 @@ namespace bricks {
 class GameExecuter {
 public:
     GameExecuter(const char* a_gameFile);
-    // GameExecuter() = default;
+    GameExecuter(const GameExecuter&) = default;
+    GameExecuter& operator=(const GameExecuter&) = default;
+    ~GameExecuter() = default;
     void Execute(size_t a_width, size_t a_height, const char* a_screenNane);
     
 private:

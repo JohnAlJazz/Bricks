@@ -15,14 +15,11 @@ namespace bricks {
 
 class Level {
 public:
-    Level(std::ifstream& a_level);
-
-    std::vector<Shape> Shapes();
+    Level(std::ifstream& a_level);  
    
 
     Paddle m_paddle;
-    Rectangle m_brick;
-    BreakableBrick m_breakableBrick;    
+    std::vector<BreakableBrick> m_breakableBrick;    
     Ball m_ball;
 };
 
