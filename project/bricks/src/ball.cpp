@@ -1,0 +1,27 @@
+#include "ball.hpp"
+
+namespace bricks{
+
+Ball::Ball(float a_xVelocity, float a_yVelocity, float a_radius, sf::Color& a_color, float a_xPos, float a_yPos)
+: Shape(new sf::CircleShape{a_radius}, a_color, a_xPos, a_yPos)
+, m_xVelocity(a_xVelocity)
+, m_yVelocity(a_yVelocity)
+{}
+
+void Ball::Move(size_t a_width, size_t a_height) {
+    if(xPos() <= 0) {            
+            m_xVelocity *= -1;
+        } 
+        else if(xPos() >= a_width) {//screenSize) {            
+            m_xVelocity *= -1;
+        } 
+        else if(yPos() <= 0) {            
+            m_yVelocity *= -1;
+        } 
+        else if(yPos() >= a_height) {////screenSize) {            
+            m_yVelocity *= -1;
+        }   
+        m_shape->move(m_xVelocity, m_yVelocity);      
+}
+
+} //bricks
