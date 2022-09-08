@@ -13,6 +13,7 @@ public:
     ~Shape();
 
     void SetShapeColor(const sf::Color &a_color) override;
+    sf::Color Color();
     void SetShapePosition(float a_xPos, float a_yPos) override;
     void Draw(sf::RenderWindow& a_window);
     sf::FloatRect GetGlobalBounds();

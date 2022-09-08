@@ -17,19 +17,6 @@ static Paddle InitPaddle(std::ifstream& a_level) {
     return Paddle{xVel, yVel, color, xPos, yPos, width, height};     
 }
 
-// static Rectangle InitBrick(std::ifstream& a_level) {
-   
-//     float xPos;
-//     float yPos;
-//     float width;
-//     float height;
-
-//     a_level >> xPos >> yPos >> width >> height;   
-//     sf::Color color(sf::Color::Red); 
-//     return Rectangle(color, xPos, yPos, width, height);     
-// }
-
-
 static std::vector<BreakableBrick> InitBreakableBrick(std::ifstream& a_level) {
     
     int numberOfBricks;

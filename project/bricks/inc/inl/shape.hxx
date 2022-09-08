@@ -5,6 +5,10 @@ inline void Shape::SetShapeColor(const sf::Color &a_color) {
     m_shape->setFillColor(a_color);
 }
 
+inline sf::Color Shape::Color() {
+    return m_shape->getFillColor();
+}
+
 inline void Shape::SetShapePosition(float a_xPos, float a_yPos) {
     m_shape->setPosition(a_xPos, a_yPos);
 }

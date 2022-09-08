@@ -15,8 +15,7 @@ namespace bricks {
 
 class Level {
 public:
-    Level(std::ifstream& a_level);  
-   
+    Level(std::ifstream& a_level);     
 
     Paddle m_paddle;
     std::vector<BreakableBrick> m_breakableBrick;    

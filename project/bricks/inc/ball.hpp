@@ -14,11 +14,20 @@ public:
    
     void Move(Shape& a_object, size_t a_width, size_t a_height);
 
+    float CenterXOfBall();
+    float CenterYOfBall();
+    float Diameter();
+    void SetXVelocity();
+    void SetYVelocity();
+    bool Collision(const sf::FloatRect& a_object);
+
 private:
     float m_xVelocity;
     float m_yVelocity;
+    float m_radius;
 };
 
+#include "inl/ball.hxx"
 
 } //bricks
 
