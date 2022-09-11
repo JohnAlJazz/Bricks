@@ -74,25 +74,25 @@ static void AvoidCollisions(Ball& a_ball, std::vector<BreakableBrick>& a_breakab
     
                 float distanceX = abs(ball.CenterXOfBall() - breakable.CenterXOfBrick());
                 float distanceY = abs(ball.CenterYOfBall() - breakable.CenterYOfBrick());
-                if((distanceX <= ((breakable.Width() + ball.Diameter()) / 2)))  {
+                // if((distanceX <= ((breakable.Width() + ball.Diameter()) / 2)))  {
             
-                    ball.SetXVelocity();                    
-                }
-                if((distanceY <= ((breakable.Height() + ball.Diameter()) / 2))){
+                //     ball.SetXVelocity();                    
+                // }
+                // if((distanceY <= ((breakable.Height() + ball.Diameter()) / 2))){
                                       
-                    ball.SetYVelocity();                    
-                }
+                //     ball.SetYVelocity();                    
+                // }
                     
-                // if((distanceX <= ((breakable.Width() + ball.Diameter()) / 2)) && (distanceX > (breakable.CenterXOfBrick() / 2))) {
+                if((distanceX <= ((breakable.Width() + ball.Diameter()) / 2)) && (distanceX > (breakable.CenterXOfBrick() / 2))) {
             
-                //     ball.SetXVelocity();
-                //     std::cout << "HERE\n";
-                // }
-                // if((distanceY <= ((breakable.Height() + ball.Diameter()) / 2)) && (distanceY > (breakable.CenterYOfBrick() / 2))) {
+                    ball.SetXVelocity();
+                    std::cout << "HERE\n";
+                }
+                if((distanceY <= ((breakable.Height() + ball.Diameter()) / 2)) && (distanceY > (breakable.CenterYOfBrick() / 2))) {
                                       
-                //     ball.SetYVelocity();
-                //     std::cout << "HERE22222\n";
-                // }
+                    ball.SetYVelocity();
+                    std::cout << "HERE22222\n";
+                }
             }
         }
     };
