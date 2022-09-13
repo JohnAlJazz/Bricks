@@ -1,5 +1,5 @@
-#ifndef SOCKET_H__
-#define SOCKET_H__
+#ifndef SOCKET_HPP__
+#define SOCKET_HPP__
 
 #include <sys/socket.h>
 #include "unistd.h"
@@ -15,17 +15,16 @@ class Socket {
 public:
 
     friend class Server;
-    friend class Client;    
-   
+    friend class Client;  
 
-    Socket(uint16_t a_port, in_addr_t a_address);
+    Socket();
+    Socket(int a_socket);    
     Socket(const Socket&) = delete;
     Socket& operator=(const Socket&) = delete;
     ~Socket();       
 
 private:
-    int m_socket;
-    struct sockaddr_in m_address; 
+    int m_socket;    
 };
 
 #include "inl/Socket.hxx"
@@ -35,4 +34,4 @@ private:
 
 
 
-#endif //SOCKET_H__
+#endif //SOCKET_HPP__

@@ -3,7 +3,7 @@ CC = $(CXX)
 
 #dependencies:
 DEPENDENCY1=Socket
-DEPENDENCY2=client
+DEPENDENCY2=TCPClientSocket
 
 
 CPPFLAGS = -I$(INC_DIR)

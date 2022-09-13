@@ -1,18 +1,24 @@
 #include "mu_test.h"
-#include "server.hpp"
+#include "TCPServerSocket.hpp"
 #include "Socket.hpp"
+#include "TCPClientSocket.hpp"
 
 #include <assert.h>
 #include <iostream>
+#include <vector>
+#include <memory>
 
 
 BEGIN_TEST(server) 
     using namespace net;
-    Server server(8080, INADDR_ANY, 1);
-    server.Listen();
-    server.Accept();
-    server.Recieve();
-    server.Send("Hi from server", 15);
+    Server server(8080);
+    std::vector<int> v;    
+    server.Listen();    
+    std::unique_ptr<Client> client = server.Accept(); 
+    v = client->Receive<std::vector<int>>(); 
+    for(auto e : v) {
+        std::cout << e << '\n';
+    }  
     ASSERT_PASS();
 END_TEST
 
