@@ -24,6 +24,7 @@ INC_DIR = ../../../inc/
 
 TARGET = utest
 OBJS = utest.o ${SRC_DIR}${DEPENDENCY1}.o ${SRC_DIR}${DEPENDENCY2}.o
+OBJSD = ${SRC_DIR}${DEPENDENCY1}.d ${SRC_DIR}${DEPENDENCY2}.d
 
 all: $(TARGET)
 
@@ -38,7 +39,7 @@ vala: all
 utest.o: utest.cpp
 
 clean:
-	@$(RM) $(TARGET) $(OBJS)
+	@$(RM) $(TARGET) $(OBJS) $(OBJSD)
 
 .PHONY: all check clean
 
