@@ -20,20 +20,5 @@ Socket::~Socket() {
     close(m_socket);
 }
 
-int Socket::SetSocketOpt(int& a_optVal) {
-    if(setsockopt(m_socket, SOL_SOCKET, SO_REUSEADDR, &a_optVal, sizeof(a_optVal)) < 0) {
-        throw "reuse fail";
-    }
-}
-
-void Socket::Bind() {
-    if(bind(m_socket, (struct sockaddr*)(&m_address), sizeof(m_address)) < 0) {
-        throw "bind fail";   
-    }
-}
-
-void Socket::Listen() {
-    if(listen())
-}
 
 } //net

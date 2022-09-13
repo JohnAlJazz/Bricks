@@ -5,19 +5,23 @@
 #include "unistd.h"
 #include <arpa/inet.h>
 #include <cstring>
+#include <iostream>
 
 namespace net {
 
+    
+
 class Socket {
 public:
+
+    friend class Server;
+    friend class Client;    
+   
+
     Socket(uint16_t a_port, in_addr_t a_address);
-    ~Socket();
     Socket(const Socket&) = delete;
     Socket& operator=(const Socket&) = delete;
-
-    int SetSocketOpt(int& a_optVal);
-    void Bind();
-    void Listen();
+    ~Socket();       
 
 private:
     int m_socket;
