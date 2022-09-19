@@ -1,17 +1,17 @@
 #ifndef CLIENT_HPP__
 #define CLIENT_HPP__
 
-#include <string>
-
 #include "Socket.hpp"
+#include "TCPSocketExceptions.hpp"
 
 namespace net {
 
 class Client {
 public:
+
     Client(const char* a_address, uint16_t a_port);
     Client(int a_socket);
-    // Client(const Socket&) = default;
+    Client(const Socket&) = delete;
     Client& operator=(const Socket&) = delete;
     ~Client() = default;
   
@@ -22,11 +22,12 @@ public:
     void Send(T& a_buff);   
 
 private:
+
+    friend class Asynchronizer; 
     Socket m_clientSocket;
 };
 
 #include "inl/client.hxx"
-
     
 } //net
 

@@ -7,15 +7,13 @@
 #include <cstring>
 #include <iostream>
 
-namespace net {
+#include "TCPSocketExceptions.hpp"
 
-    
+
+namespace net {   
 
 class Socket {
 public:
-
-    friend class Server;
-    friend class Client;  
 
     Socket();
     Socket(int a_socket);    
@@ -24,8 +22,13 @@ public:
     ~Socket();       
 
 private:
+
+    friend class AsyncServer;
+    friend class Asynchronizer;
+    friend class Client;     
     int m_socket;    
 };
+
 
 #include "inl/Socket.hxx"
 

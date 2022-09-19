@@ -1,7 +1,5 @@
 #include "TCPClientSocket.hpp"
 
-
-
 namespace net {
 
 Client::Client(const char* a_address, uint16_t a_port) 
@@ -14,10 +12,9 @@ Client::Client(const char* a_address, uint16_t a_port)
     address.sin_port = htons(a_port);
 
     if(connect(m_clientSocket.m_socket, (struct sockaddr*)&address, sizeof(address)) < 0 ) {
-        throw "connect failed";
+        throw TCPSocketExceptions("connect() failed", "in client Ctor");
     } 
 }
-
 
 Client::Client(int a_socket)
 : m_clientSocket(a_socket)
