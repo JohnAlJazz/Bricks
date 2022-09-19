@@ -18,7 +18,6 @@ public:
     Server& operator=(const Server&) = delete;
     ~Server() = default;
 
-    void Listen();
     std::unique_ptr<Client> Accept();    
 
 private:

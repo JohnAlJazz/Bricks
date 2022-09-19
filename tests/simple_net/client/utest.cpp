@@ -1,5 +1,6 @@
 #include "mu_test.h"
 #include "TCPClientSocket.hpp"
+#include "TCPSocketExceptions.hpp"
 #include "Socket.hpp"
 
 #include <assert.h>
@@ -7,15 +8,14 @@
 #include <vector>
 #include <numeric>
 
-std::vector<double> RandDoubleInitializer() {
+std::vector<double> RandDoublesInitializer() {
     std::vector<double> doubleVector;
-    for(size_t i = 0; i < 1000000; ++i) {
+    for(size_t i = 0; i < 10000000; ++i) {
         double d = rand() % 10;
         doubleVector.push_back(d);
     }
     return doubleVector;
 }
-
 
 BEGIN_TEST(client) 
     using namespace net;
@@ -25,20 +25,25 @@ BEGIN_TEST(client)
     ASSERT_PASS();
 END_TEST
 
+
 BEGIN_TEST(random_double_test) 
     using namespace net;
-    std::vector<double> vector = RandDoubleInitializer();
+    std::vector<double> vector = RandDoublesInitializer();
+    try {   
+        Client client("127.0.0.1", 8080);     
+        client.Send(vector);
+    } catch(const TCPSocketExceptions& e) {
+        std::cout << e.what() << ", " << e.where();
+    }     
     double sum = std::accumulate(vector.begin(), vector.end(), 0);
-    Client client("127.0.0.1", 8080);    
-    client.Send(vector);
-    std::cout << "sum of vector sent from TCP client: " << sum << '\n';      
+    std::cout << "\nsum of vector sent from TCP client: " << sum << '\n';      
     ASSERT_PASS();
 END_TEST
 
 
 
 BEGIN_SUITE(Its what you learn after you know it all that counts)
-	TEST(client) 
+	// TEST(client) 
     TEST(random_double_test)  	
     		
 END_SUITE

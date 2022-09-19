@@ -21,12 +21,9 @@ Server::Server(uint16_t a_port)
     if(bind(m_serverSocket.m_socket, (struct sockaddr*)&m_address, sizeof(m_address)) < 0) {
         throw TCPSocketExceptions("bind() failed", "in server Ctor");
     }  
-}
-
-void Server::Listen() {
     if(listen(m_serverSocket.m_socket, 1021) == -1) {
         throw TCPSocketExceptions("listen() failed", "in server Listen");
-    }    
+    }
 }
 
 std::unique_ptr<Client> Server::Accept() {

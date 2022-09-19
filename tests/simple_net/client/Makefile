@@ -4,6 +4,7 @@ CC = $(CXX)
 #dependencies:
 DEPENDENCY1=Socket
 DEPENDENCY2=TCPClientSocket
+DEPENDENCY3=TCPSocketExceptions
 
 
 CPPFLAGS = -I$(INC_DIR)
@@ -23,8 +24,8 @@ SRC_DIR = ../../../src/
 INC_DIR = ../../../inc/
 
 TARGET = utest
-OBJS = utest.o ${SRC_DIR}${DEPENDENCY1}.o ${SRC_DIR}${DEPENDENCY2}.o
-OBJSD = ${SRC_DIR}${DEPENDENCY1}.d ${SRC_DIR}${DEPENDENCY2}.d
+OBJS = utest.o ${SRC_DIR}${DEPENDENCY1}.o ${SRC_DIR}${DEPENDENCY2}.o ${SRC_DIR}${DEPENDENCY3}.o
+OBJSD = ${SRC_DIR}${DEPENDENCY1}.d ${SRC_DIR}${DEPENDENCY2}.d ${SRC_DIR}${DEPENDENCY3}.d
 
 all: $(TARGET)
 

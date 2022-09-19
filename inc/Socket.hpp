@@ -25,7 +25,8 @@ private:
 
     friend class AsyncServer;
     friend class Asynchronizer;
-    friend class Client;     
+    friend class Client; 
+    friend class Server;    
     int m_socket;    
 };
 
