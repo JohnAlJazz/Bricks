@@ -3,6 +3,8 @@
 
 #include "Socket.hpp"
 #include "TCPClientSocket.hpp"
+#include "TCPSocketExceptions.hpp"
+
 #include <iostream>
 #include <memory>
 
@@ -20,6 +22,8 @@ public:
     std::unique_ptr<Client> Accept();    
 
 private:
+
+    friend class Asynchronizer;
     Socket m_serverSocket;    
     struct sockaddr_in m_address;
 };

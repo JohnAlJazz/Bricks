@@ -9,7 +9,7 @@
 
 std::vector<double> RandDoubleInitializer() {
     std::vector<double> doubleVector;
-    for(size_t i = 0; i < 1000; ++i) {
+    for(size_t i = 0; i < 1000000; ++i) {
         double d = rand() % 10;
         doubleVector.push_back(d);
     }
@@ -34,7 +34,6 @@ BEGIN_TEST(random_double_test)
     std::cout << "sum of vector sent from TCP client: " << sum << '\n';      
     ASSERT_PASS();
 END_TEST
-
 
 
 
