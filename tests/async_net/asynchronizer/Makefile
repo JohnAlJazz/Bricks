@@ -7,6 +7,8 @@ DEPENDENCY2=TCPClientSocket
 DEPENDENCY3=TCPAsynchronizer
 DEPENDENCY4=TCPServerAsync
 DEPENDENCY5=TCPSocketExceptions
+DEPENDENCY6=Handler
+
 
 
 

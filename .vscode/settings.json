@@ -37,6 +37,9 @@
         "functional": "cpp",
         "numeric": "cpp",
         "deque": "cpp",
-        "map": "cpp"
+        "map": "cpp",
+        "bit": "cpp",
+        "cstring": "cpp",
+        "memory": "cpp"
     }
 }

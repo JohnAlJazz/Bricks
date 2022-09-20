@@ -8,6 +8,7 @@
 #include <vector>
 #include <memory>
 #include <numeric>
+#include <errno.h>
 
 
 BEGIN_TEST(server) 
@@ -32,9 +33,32 @@ BEGIN_TEST(large_vec_test)
     v = client->Receive<std::vector<double>>(); 
     double sum = std::accumulate(v.begin(), v.end(), 0);
     std::cout << "sum of vector received from TCP server: " << sum << '\n'; 
-     
+
     ASSERT_PASS();
 END_TEST
+
+// int main() {
+//     using namespace net;
+//     Server server(8080);
+
+//     std::vector<double> v;       
+//     std::unique_ptr<Client> client = server.Accept(); 
+//     while(1){
+//         try{
+//             v = client->Receive<std::vector<double>>(); 
+//             break;
+//         }
+//         catch(const TCPSocketExceptions& e){
+//             if(errno != EAGAIN) {
+//                 std::cout << e.what() << ", " << e.where();
+//                 return 1;
+//             }
+//             continue;
+//         }
+//     }
+//     double sum = std::accumulate(v.begin(), v.end(), 0);
+//     std::cout << "sum of vector received from TCP server: " << sum << '\n'; 
+// }
 
 
 
