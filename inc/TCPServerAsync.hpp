@@ -24,8 +24,11 @@ private:
     friend class Asynchronizer;
     Socket m_serverSocket;    
     struct sockaddr_in m_address;
+    friend class Epoll;
+    int GetSocket();
 };
 
+#include "inl/TCPServerAsync.hxx"
 
 } //net
 

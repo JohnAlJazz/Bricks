@@ -24,6 +24,7 @@ public:
 private:
 
     friend class Asynchronizer; 
+    friend class Epoll;
     Socket m_clientSocket;
 };
 
