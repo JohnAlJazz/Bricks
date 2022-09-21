@@ -3,6 +3,7 @@
 
 #include "Socket.hpp"
 #include "TCPSocketExceptions.hpp"
+#include <vector>
 
 namespace net {
 
@@ -13,13 +14,11 @@ public:
     Client(int a_socket);
     Client(const Socket&) = delete;
     Client& operator=(const Socket&) = delete;
-    ~Client() = default;
-  
-    template <typename T>
-    T Receive();
-
-    template <typename T>
-    void Send(T& a_buff);   
+    ~Client() = default;  
+    
+    std::vector<unsigned char> Receive();
+    
+    void Send(std::vector<unsigned char>& a_buffer);   
 
 private:
 

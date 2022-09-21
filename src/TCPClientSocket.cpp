@@ -21,4 +21,29 @@ Client::Client(int a_socket)
 {}
 
 
+std::vector<unsigned char> Client::Receive() {
+    
+    std::vector<unsigned char> buffer(1000);    
+    int receivedBytes = 0;    
+        
+    if((receivedBytes = recv(m_clientSocket.m_socket, buffer.data(), buffer.size(), 0)) <= 0) {
+        throw TCPSocketExceptions("recv() 1 failed", "in client Receive()");
+    }
+    buffer.resize(receivedBytes);    
+    return buffer;
+}
+
+void Client::Send(std::vector<unsigned char>& a_buffer) {
+    
+    size_t bytesToSend = a_buffer.size();
+    ssize_t sentBytes = 0;   
+
+    while(bytesToSend > 0) {             
+        if((sentBytes = send(m_clientSocket.m_socket, a_buffer.data(), a_buffer.size(), 0)) < 0) {    
+            throw TCPSocketExceptions("send() failed", "in client Send()");
+        }
+        bytesToSend -= sentBytes; 
+    }    
+}
+
 } //net
