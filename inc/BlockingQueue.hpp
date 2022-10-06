@@ -5,6 +5,7 @@
 #include <mutex>
 #include <iostream>
 #include <unistd.h>
+#include <cassert>
 
 #include "Semaphore.hpp"
 
@@ -21,9 +22,9 @@ public:
     ~BlockingQueue() = default;
 
     void Enqueue(T a_arg);
-    T Dequeue();
+    void Dequeue(T* a_argPtr);
 
-    size_t Size();   
+    size_t Size() const;   
    
 private:
 
@@ -31,7 +32,7 @@ private:
     Semaphore m_empty;
     Semaphore m_full;
     std::mutex m_mutex;
-    bool m_isInfinite;
+    const bool m_isInfinite;
     
 };
 

@@ -10,7 +10,7 @@ BlockingQueue<T>::BlockingQueue(size_t a_capacity)
 , m_isInfinite(false)
 {}
 
-template<typename T>
+template <typename T>
 BlockingQueue<T>::BlockingQueue()
 : m_queue()
 , m_empty(0) 
@@ -20,7 +20,7 @@ BlockingQueue<T>::BlockingQueue()
 
 template <typename T>
 void BlockingQueue<T>::Enqueue(T a_arg) {  
-    if(! m_isInfinite) {  
+    if(!m_isInfinite) {  
         m_empty.Wait();  
     }
     std::lock_guard<std::mutex> guard(m_mutex);        
@@ -29,18 +29,26 @@ void BlockingQueue<T>::Enqueue(T a_arg) {
 }
 
 template <typename T>
-T BlockingQueue<T>::Dequeue() {
+void BlockingQueue<T>::Dequeue(T* a_argPtr) {
     
     m_full.Wait();
-    std::lock_guard<std::mutex> guard(m_mutex); 
-    T elem = m_queue.front();
-    m_queue.pop(); 
-    m_empty.Post();
-    return elem;     
+    try {
+        std::lock_guard<std::mutex> guard(m_mutex); 
+        assert(!m_queue.empty());
+        *a_argPtr = m_queue.front();
+        m_queue.pop(); 
+        if(m_isInfinite) {
+            m_empty.Post();
+        }          
+    }   
+    catch(...) {
+        m_full.Post();
+        throw;
+    }
 }
 
 template <typename T>
-size_t BlockingQueue<T>::Size() {
+size_t BlockingQueue<T>::Size() const{
     return m_queue.size();
 }
 
