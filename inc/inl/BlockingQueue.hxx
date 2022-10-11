@@ -20,37 +20,53 @@ BlockingQueue<T>::BlockingQueue()
 
 template <typename T>
 void BlockingQueue<T>::Enqueue(T a_arg) {  
+
     if(!m_isInfinite) {  
         m_empty.Wait();  
     }
-    std::lock_guard<std::mutex> guard(m_mutex);        
-    m_queue.push(a_arg);          
-    m_full.Post();       
+    try {
+        std::lock_guard<std::mutex> guard(m_mutex);  
+        #ifdef TIME_STAMP
+        a_arg.ingress = std::chrono::steady_clock::now(); 
+        #endif     
+        m_queue.push(a_arg); 
+
+    } catch(...) {
+        m_empty.Post(); //if push failed, there is the same number of empty slots, therefore Post() is needed
+        throw;
+    }
+    m_full.Post();    
 }
 
 template <typename T>
-void BlockingQueue<T>::Dequeue(T* a_argPtr) {
+void BlockingQueue<T>::Dequeue(T& a_arg) {
     
     m_full.Wait();
     try {
-        std::lock_guard<std::mutex> guard(m_mutex); 
-        assert(!m_queue.empty());
-        *a_argPtr = m_queue.front();
+        std::lock_guard<std::mutex> guard(m_mutex);         
+        a_arg = m_queue.front();
+        #ifdef TIME_STAMP
+        a_arg.egress = std::chrono::system_clock::now(); 
+        #endif
         m_queue.pop(); 
         if(m_isInfinite) {
             m_empty.Post();
         }          
-    }   
-    catch(...) {
+    } catch(...) {
         m_full.Post();
         throw;
-    }
+    }      
 }
 
 template <typename T>
-size_t BlockingQueue<T>::Size() const{
+size_t BlockingQueue<T>::Size() const {
+    std::lock_guard<std::mutex> guard(m_mutex);
     return m_queue.size();
 }
 
+template <typename T>
+bool BlockingQueue<T>::IsEmpty() const {
+    return !Size();
+}
 
 #endif //BLOCKINGQ_HXX

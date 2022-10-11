@@ -6,6 +6,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <cassert>
+#include <chrono>
 
 #include "Semaphore.hpp"
 
@@ -22,16 +23,17 @@ public:
     ~BlockingQueue() = default;
 
     void Enqueue(T a_arg);
-    void Dequeue(T* a_argPtr);
+    void Dequeue(T& a_argPtr);
 
-    size_t Size() const;   
+    size_t Size() const;  
+    bool IsEmpty() const; 
    
 private:
 
     std::queue<T> m_queue;
     Semaphore m_empty;
     Semaphore m_full;
-    std::mutex m_mutex;
+    mutable std::mutex m_mutex; //mutex will change states even within a const function - Size()
     const bool m_isInfinite;
     
 };
