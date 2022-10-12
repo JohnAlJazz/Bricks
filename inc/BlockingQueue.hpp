@@ -22,8 +22,11 @@ public:
     BlockingQueue& operator=(const BlockingQueue&) = delete;
     ~BlockingQueue() = default;
 
-    void Enqueue(T a_arg);
+    void Enqueue(T& a_arg);
+    void Enqueue(T&& a_arg);
+    
     void Dequeue(T& a_argPtr);
+    void Dequeue(T&& a_argPtr);
 
     size_t Size() const;  
     bool IsEmpty() const; 

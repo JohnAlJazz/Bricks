@@ -19,7 +19,7 @@ BlockingQueue<T>::BlockingQueue()
 {}
 
 template <typename T>
-void BlockingQueue<T>::Enqueue(T a_arg) {  
+void BlockingQueue<T>::Enqueue(T& a_arg) {  
 
     if(!m_isInfinite) {  
         m_empty.Wait();  
@@ -45,6 +45,47 @@ void BlockingQueue<T>::Dequeue(T& a_arg) {
     try {
         std::lock_guard<std::mutex> guard(m_mutex);         
         a_arg = m_queue.front();
+        #ifdef TIME_STAMP
+        a_arg.egress = std::chrono::system_clock::now(); 
+        #endif
+        m_queue.pop(); 
+        if(m_isInfinite) {
+            m_empty.Post();
+        }          
+    } catch(...) {
+        m_full.Post();
+        throw;
+    }      
+}
+
+
+template <typename T>
+void BlockingQueue<T>::Enqueue(T&& a_arg) {  
+
+    if(!m_isInfinite) {  
+        m_empty.Wait();  
+    }
+    try {
+        std::lock_guard<std::mutex> guard(m_mutex);  
+        #ifdef TIME_STAMP
+        a_arg.ingress = std::chrono::steady_clock::now(); 
+        #endif     
+        m_queue.push(std::move(a_arg)); 
+
+    } catch(...) {
+        m_empty.Post(); //if push failed, there is the same number of empty slots, therefore Post() is needed
+        throw;
+    }
+    m_full.Post();    
+}
+
+template <typename T>
+void BlockingQueue<T>::Dequeue(T&& a_arg) {
+    
+    m_full.Wait();
+    try {
+        std::lock_guard<std::mutex> guard(m_mutex);         
+        a_arg = std::move(m_queue.front());
         #ifdef TIME_STAMP
         a_arg.egress = std::chrono::system_clock::now(); 
         #endif

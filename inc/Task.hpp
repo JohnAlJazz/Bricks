@@ -22,6 +22,17 @@ private:
     Arg m_arg;
 };
 
+template <typename F>
+class FunctionObject : public TasksBase {
+public: 
+    FunctionObject(F & a_funcObject) : m_funcObject(a_funcObject) {}
+    void Act() override {
+        m_funcObject.Act();
+    }
+
+private:
+    F& m_funcObject;
+};
 
 } //threads
 
