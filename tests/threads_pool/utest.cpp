@@ -86,7 +86,7 @@ void PrintPalindromes(const std::vector<unsigned int>& a_PalindromeVec) {
     std::cout << "\n\n";
 }
 
-void StoragePrimes(unsigned int a_num) {
+void Primes(unsigned int a_num) {
 
     std::vector<unsigned int> primesVec;
     for(size_t i = 0; i < a_num; ++i) {
@@ -98,7 +98,7 @@ void StoragePrimes(unsigned int a_num) {
     PrintPrimes(primesVec);
 }
 
-void StorageSummedTo10(unsigned int a_num) {
+void SummedTo10(unsigned int a_num) {
 
     std::vector<unsigned int> sumOfDigitsIs10Vec;
     for(size_t i = 0; i < a_num; ++i) {
@@ -110,7 +110,7 @@ void StorageSummedTo10(unsigned int a_num) {
     PrintSummedTo10(sumOfDigitsIs10Vec);  
 }
 
-void StoragePalindromes(unsigned int a_num) {
+void Palindromes(unsigned int a_num) {
 
     std::vector<unsigned int> palindromeVec;
     for(size_t i = 0; i < a_num; ++i) {
@@ -122,48 +122,152 @@ void StoragePalindromes(unsigned int a_num) {
     PrintPalindromes(palindromeVec);   
 }
 
+////////////////////////////////////////////////////////////////////////
 
-
-BEGIN_TEST(threads_pool_unique_ptrs) 
-
-using namespace threads;
-
-    ThreadsPool tPool(3);   
-    
-    tPool.AddTask(std::unique_ptr<TasksBase>(new Task<unsigned int>{StoragePalindromes, 1000}));
-    tPool.AddTask(std::unique_ptr<TasksBase>(new Task<unsigned int>{StoragePrimes, 1000}));
-    tPool.AddTask(std::unique_ptr<TasksBase>(new Task<unsigned int>{StorageSummedTo10, 1000}));
-              
-    
-    ASSERT_PASS();
-END_TEST
-
-BEGIN_TEST(threads_pool_shut_down) 
-
+BEGIN_TEST(threads_pool_unique_ptrs_to_tasks) 
 
 using namespace threads;
 
     ThreadsPool tPool(3);   
     
-    tPool.AddTask(std::unique_ptr<TasksBase>(new Task<unsigned int>{StoragePalindromes, 10000}));
-    tPool.AddTask(std::unique_ptr<TasksBase>(new Task<unsigned int>{StoragePrimes, 10000}));
-    tPool.AddTask(std::unique_ptr<TasksBase>(new Task<unsigned int>{StorageSummedTo10, 10000}));
-    tPool.ShutDown();              
+    tPool.AddTask(std::unique_ptr<TasksBase>(new Task<unsigned int>{Palindromes, 1000}));
+    tPool.AddTask(std::unique_ptr<TasksBase>(new Task<unsigned int>{Primes, 1000}));
+    tPool.AddTask(std::unique_ptr<TasksBase>(new Task<unsigned int>{SummedTo10, 1000}));              
     
     ASSERT_PASS();
 END_TEST
 
 
-BEGIN_TEST(threads_pool_shared_ptrs) 
+BEGIN_TEST(threads_pool_shared_ptrs_to_tasks) 
+
+using namespace threads;
+
+    ThreadsPool tPool(4);     
+                    
+    tPool.AddTask(std::shared_ptr<TasksBase>(new Task<unsigned int>{Palindromes, 10'000}));  //using shared_ptr
+    tPool.AddTask(std::make_shared<Task<unsigned int>>(Palindromes, 10'000)); //using make_shared
+    tPool.AddTask(std::shared_ptr<TasksBase>(new Task<unsigned int>{Primes, 10'000})); 
+    tPool.AddTask(std::shared_ptr<TasksBase>(new Task<unsigned int>{SummedTo10, 10'000}));        
+                 
+    ASSERT_PASS();    
+END_TEST
+
+    
+BEGIN_TEST(threads_pool_template_add_tasks) 
+
+using namespace threads;  
+
+    struct Foo {  
+        void operator()()
+        {std::cout << "Testing AddTsk<> Function object\n";}
+    };
+
+    ThreadsPool tPool; 
+    Foo f;
+    FunctionObject<Foo>funcObj(f);    
+    tPool.AddTask<FunctionObject<Foo>>(funcObj); 
+    tPool.ShutDown();    
+               
+    ASSERT_PASS();    
+END_TEST
+
+
+BEGIN_TEST(threads_pool_std_function1) 
+
+using namespace threads;  
+
+    ThreadsPool tPool;  
+    std::function<void()> func = []() {
+        std::cout << "Testing AddTask(std::function)\n";
+    };   
+    tPool.AddTask(func);
+    tPool.ShutDown();        
+               
+    ASSERT_PASS();    
+END_TEST
+
+
+void palindromes() {
+    Palindromes(100'000);
+}
+
+BEGIN_TEST(threads_pool_std_function2) 
+
+using namespace threads;      
+
+    ThreadsPool tPool;  
+    std::function<void()> func = palindromes;  
+    tPool.AddTask(func);
+    tPool.ShutDown();        
+               
+    ASSERT_PASS();    
+END_TEST
+
+
+BEGIN_TEST(threads_pool_remove_threads) 
+
+using namespace threads;
+
+    ThreadsPool tPool(10);   
+    
+    tPool.AddTask(std::unique_ptr<TasksBase>(new Task<unsigned int>{Palindromes, 1000}));
+    tPool.AddTask(std::unique_ptr<TasksBase>(new Task<unsigned int>{Primes, 1000}));
+    tPool.AddTask(std::unique_ptr<TasksBase>(new Task<unsigned int>{SummedTo10, 1000}));
+
+    tPool.RemoveThreads(12);              
+    
+    ASSERT_PASS();
+END_TEST
+
+
+BEGIN_TEST(threads_pool_add_threads) 
 
 using namespace threads;
 
     ThreadsPool tPool(4); 
     
-    tPool.AddTask(std::shared_ptr<TasksBase>(new Task<unsigned int>{StoragePalindromes, 10'000})); 
-    tPool.AddTask(std::shared_ptr<TasksBase>(new Task<unsigned int>{StoragePrimes, 10'000})); 
-    tPool.AddTask(std::shared_ptr<TasksBase>(new Task<unsigned int>{StorageSummedTo10, 10'000})); 
-    tPool.ShutDown();            
+    tPool.AddTask(std::unique_ptr<TasksBase>(new Task<unsigned int>{Palindromes, 1000}));
+    tPool.AddTask(std::unique_ptr<TasksBase>(new Task<unsigned int>{Primes, 1000}));
+    tPool.AddTask(std::unique_ptr<TasksBase>(new Task<unsigned int>{SummedTo10, 1000}));
+    
+    tPool.RemoveThreads(4);
+    tPool.AddTask(std::unique_ptr<TasksBase>(new Task<unsigned int>{Palindromes, 1000}));
+
+    sleep(3);
+    tPool.AddThreads(1);              
+    tPool.RemoveThreads(1);
+
+    ASSERT_PASS();
+END_TEST
+
+
+BEGIN_TEST(threads_pool_shut_down) 
+
+using namespace threads;
+
+    ThreadsPool tPool(3);       
+             
+    tPool.AddTask(std::unique_ptr<TasksBase>(new Task<unsigned int>{Palindromes, 1000}));             
+    tPool.AddTask(std::unique_ptr<TasksBase>(new Task<unsigned int>{Primes, 1000})); 
+    tPool.AddTask(std::unique_ptr<TasksBase>(new Task<unsigned int>{SummedTo10, 1000}));    
+    
+    tPool.ShutDown();             
+    
+    ASSERT_PASS();
+END_TEST
+
+
+BEGIN_TEST(threads_pool_shut_down_immediately) 
+
+using namespace threads;
+
+    ThreadsPool tPool(4); 
+    
+    tPool.AddTask(std::shared_ptr<TasksBase>(new Task<unsigned int>{Primes, 10'000})); 
+    tPool.AddTask(std::shared_ptr<TasksBase>(new Task<unsigned int>{Palindromes, 10'000})); 
+    tPool.AddTask(std::shared_ptr<TasksBase>(new Task<unsigned int>{SummedTo10, 10'000})); 
+    
+    tPool.ShutDownImmediately();           
     
     ASSERT_PASS();
 END_TEST
@@ -171,9 +275,15 @@ END_TEST
 
 BEGIN_SUITE(Its what you learn after you know it all that counts)		
      
-    // TEST(threads_pool_unique_ptrs)
-    // TEST(threads_pool_shut_down) 
-    TEST(threads_pool_shared_ptrs)    		
+    // TEST(threads_pool_unique_ptrs_to_tasks)
+    // TEST(threads_pool_shared_ptrs_to_tasks)
+    // TEST(threads_pool_template_add_tasks)
+    TEST(threads_pool_std_function1)
+    // TEST(threads_pool_std_function2)
+    // TEST(threads_pool_remove_threads)
+    // TEST(threads_pool_add_threads)
+    // TEST(threads_pool_shut_down)         	
+    // TEST(threads_pool_shut_down_immediately)	    
 
 END_SUITE
 

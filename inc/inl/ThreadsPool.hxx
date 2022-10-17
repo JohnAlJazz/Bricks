@@ -3,9 +3,14 @@
 
 namespace threads {
 
-template<typename FunctionObject>
-void ThreadsPool::AddTask(FunctionObject& a_task) {    
-    // m_tasksQueue.Enqueue(std::unique_ptr<TasksBase> <FunctionObject>{new FunctionObject{a_task}});    
+template<typename FuncObj>
+void ThreadsPool::AddTask(FuncObj& a_funcObj) {  
+    if(!m_isDone) {   
+        m_tasksQueue.Enqueue(std::shared_ptr<TasksBase>(new FunctionObject{a_funcObj}));  
+    }
+    else {
+        std::cerr << "Can't add tasks\n";
+    }
 }
 
 } //threads

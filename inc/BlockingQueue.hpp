@@ -1,7 +1,7 @@
 #ifndef BLOCKINGQ_HPP
 #define BLOCKINGQ_HPP
 
-#include <queue>
+#include <deque>
 #include <mutex>
 #include <iostream>
 #include <unistd.h>
@@ -24,21 +24,23 @@ public:
 
     void Enqueue(T& a_arg);
     void Enqueue(T&& a_arg);
+
+    void Dequeue(T& a_argRef);    
     
-    void Dequeue(T& a_argPtr);
-    void Dequeue(T&& a_argPtr);
+    void ProtectionEnqueue(T a_arg);
 
     size_t Size() const;  
     bool IsEmpty() const; 
-   
-private:
 
-    std::queue<T> m_queue;
+private:    
+    void InternalEnqueue(T& a_arg);
+
+private:
+    std::deque<T> m_deque;
     Semaphore m_empty;
     Semaphore m_full;
-    mutable std::mutex m_mutex; //mutex will change states even within a const function - Size()
-    const bool m_isInfinite;
-    
+    mutable std::mutex m_mutex; //mutex will change states even within a const function => Size()
+    const bool m_isInfinite;    
 };
 
 #include "inl/BlockingQueue.hxx"

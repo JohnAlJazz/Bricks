@@ -14,6 +14,23 @@ void Task<Arg>::Act() {
     m_func(m_arg);
 }
 
+template <typename F>
+FunctionObject<F>::FunctionObject(F& a_funcObject) 
+: m_funcObject(a_funcObject)
+{}
+
+template <typename F>
+void FunctionObject<F>::Act() {
+    m_funcObject();
+}
+
+inline Function::Function(std::function<void()>& a_function) 
+: m_function(a_function) 
+{}
+
+inline void Function::Act() {
+    m_function();
+}
 
 } //threads
 

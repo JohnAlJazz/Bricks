@@ -1,20 +1,18 @@
 #ifndef TASK_HPP
 #define TASK_HPP
 
+#include <functional>
+
 #include "TaskBase.hpp"
 
 namespace threads {
 
 template <typename Arg>
 class Task : public TasksBase {    
-    typedef void(*Func)(Arg);
+    using Func = void(*)(Arg);
     
 public:
     Task(Func a_func, Arg a_arg);
-    Task(const Task&) = default;
-    Task& operator=(const Task&) = default;
-    ~Task() = default;
-
     void Act() override;
 
 private:
@@ -25,13 +23,21 @@ private:
 template <typename F>
 class FunctionObject : public TasksBase {
 public: 
-    FunctionObject(F & a_funcObject) : m_funcObject(a_funcObject) {}
-    void Act() override {
-        m_funcObject.Act();
-    }
+    FunctionObject(F& a_funcObject);
+    void Act() override;    
 
 private:
     F& m_funcObject;
+};
+
+
+class Function : public TasksBase {
+public:
+    Function(std::function<void()>& a_function);
+    void Act() override;
+
+private:
+    std::function<void()>& m_function;
 };
 
 } //threads
