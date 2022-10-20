@@ -8,17 +8,9 @@ std::unique_ptr<ISender> SenderFactory::Get() const{
             return std::make_unique<SendToScreen>();
         case 1:
             return std::make_unique<SendToFile>();
-
-        // case 2:
-        //     return std::make_unique<Rot13Encryptor>();
-
-        // case 3:
-        //     return std::make_unique<XorEncryptor>();
-
+       
         default:
-            throw 111;
-            // std::runtime_error("no such encryption is available\n");
-            // return nullptr;
+            throw 111;            
     }    
 }
 

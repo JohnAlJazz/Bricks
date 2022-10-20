@@ -10,11 +10,20 @@ class IEncryptor {
 public:
     virtual ~IEncryptor() = default;    
     virtual std::string Encrypt(std::string& a_msg) = 0;
+
+protected: 
+    IEncryptor() = default;
+    IEncryptor(const IEncryptor&) = default;
+    IEncryptor& operator=(const IEncryptor&) = default;
 };
 
-class Rot13Encryptor : public IEncryptor {
+class RotKEncryptor : public IEncryptor {
 public:    
+    explicit RotKEncryptor(int a_rotation);
     std::string Encrypt(std::string& a_msg) override;
+
+private:
+    int m_rotation;
 };
 
 class XorEncryptor : public IEncryptor {
@@ -28,6 +37,12 @@ public:
 };
 
 class NoEncryption : public IEncryptor {
+public:
+    std::string Encrypt(std::string& a_msg) override;
+};
+
+//TODO
+class MultiEncryptions : public IEncryptor {
 public:
     std::string Encrypt(std::string& a_msg) override;
 };

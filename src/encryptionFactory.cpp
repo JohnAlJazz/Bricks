@@ -10,15 +10,13 @@ std::unique_ptr<IEncryptor> EncryptionFactory::Get() {
             return std::make_unique<UpperCaseEncryptor>();
 
         case 2:
-            return std::make_unique<Rot13Encryptor>();
+            return std::make_unique<RotKEncryptor>(13); //TODO - not hard coded
 
         case 3:
             return std::make_unique<XorEncryptor>();
 
         default:
-            throw 111;
-            // std::runtime_error("no such encryption is available\n");
-            // return nullptr;
+            throw 111;            
     }    
 }
 

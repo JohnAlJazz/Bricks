@@ -2,34 +2,16 @@
 
 namespace messenger {
 
-Messenger::Messenger(std::string& a_message, std::unique_ptr<IEncryptor> a_encryptor, std::unique_ptr<ISender> a_sender)
-: m_message(a_message)
+Messenger::Messenger(std::unique_ptr<IStream> a_stream, std::unique_ptr<IEncryptor> a_encryptor, std::unique_ptr<ISender> a_destination)
+: m_stream(std::move(a_stream))
 , m_encryptor(std::move(a_encryptor))
-, m_sender(std::move(a_sender))
+, m_destination(std::move(a_destination))
 {}
 
-Messenger::Messenger(std::ifstream& a_file, std::unique_ptr<IEncryptor> a_encryptor, std::unique_ptr<ISender> a_sender)
-: m_message(ReadFromFile(a_file))
-, m_encryptor(std::move(a_encryptor))
-, m_sender(std::move(a_sender))
-{}
-
-void Messenger::Send() {
-    auto encrypted = m_encryptor->Encrypt(m_message);
-    m_sender->Send(encrypted);
-}
-
-std::string Messenger::ReadFromFile(std::ifstream& a_file) {
-
-    std::string read;
-    std::string next;
-
-    while(!a_file.eof()) {
-        a_file >> next;
-        read += next; 
-        read += " ";       
-    }
-    return read;
+void Messenger::Send() const {
+    auto source = m_stream->Read();
+    auto encrypted = m_encryptor->Encrypt(source);
+    m_destination->Send(encrypted);
 }
 
 } //messenger

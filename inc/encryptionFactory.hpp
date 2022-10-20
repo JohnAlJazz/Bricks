@@ -9,7 +9,7 @@ namespace messenger {
 
 class EncryptionFactory {
 public:
-    EncryptionFactory(int a_encryption = 0);
+    explicit EncryptionFactory(int a_encryption = 0);
     std::unique_ptr<IEncryptor> Get();
 
 private:

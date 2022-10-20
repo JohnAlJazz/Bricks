@@ -10,6 +10,11 @@ class ISender {
 public:
     virtual ~ISender() = default;
     virtual void Send(std::string& a_message) = 0;
+
+protected: 
+    ISender() = default;
+    ISender(const ISender&) = default;
+    ISender& operator=(const ISender&) = default;
 };
 
 class SendToScreen : public ISender {

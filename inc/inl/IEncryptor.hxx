@@ -3,10 +3,6 @@
 
 #include <string>
 
-inline std::string XorEncryptor::Encrypt(std::string& a_msg) {
-    return {};
-}
-
 inline std::string UpperCaseEncryptor::Encrypt(std::string& a_msg) {    
     return boost::to_upper_copy<std::string>(a_msg);    
 }

@@ -9,7 +9,7 @@ namespace messenger {
 
 class SenderFactory {
 public:
-    SenderFactory(int a_destination = 0);
+    explicit SenderFactory(int a_destination = 0);
     std::unique_ptr<ISender> Get() const;
 
 private:
