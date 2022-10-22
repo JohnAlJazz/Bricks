@@ -10,6 +10,7 @@ class IStream {
 public:
     virtual ~IStream() = default;
     virtual std::string Read() = 0;
+    virtual bool IsEnd() = 0;
 
 protected: 
     IStream() = default;
@@ -19,17 +20,27 @@ protected:
 
 class Stdin : public IStream {
 public:
+    Stdin();
     std::string Read() override;
+    bool IsEnd() override;
+
+private:
+    bool m_isEnd;
+    bool m_openMsg;
 };
 
 class File : public IStream {
 public:
-    File(std::ifstream& a_file);
+    File(const std::string& a_file);
     std::string Read() override;
+    bool IsEnd() override;
 
 private:
-    std::ifstream& m_file;
+    std::ifstream m_file;
+    bool m_isEnd;
 };
+
+#include "inl/IStream.hxx"
 
 } //messenger 
 

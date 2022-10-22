@@ -3,6 +3,8 @@
 
 #include <string>
 #include <boost/algorithm/string.hpp>
+#include <vector>
+#include <memory>
 
 namespace messenger {
 
@@ -41,10 +43,13 @@ public:
     std::string Encrypt(std::string& a_msg) override;
 };
 
-//TODO
 class MultiEncryptions : public IEncryptor {
 public:
+    explicit MultiEncryptions(std::vector<std::unique_ptr<IEncryptor>> a_vec);
     std::string Encrypt(std::string& a_msg) override;
+
+private:    
+    std::vector<std::unique_ptr<IEncryptor>> m_vec;    
 };
 
 #include "inl/IEncryptor.hxx"

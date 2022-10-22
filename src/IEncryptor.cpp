@@ -27,19 +27,28 @@ std::string RotKEncryptor::Encrypt(std::string& a_msg) {
 }
 
 std::string XorEncryptor::Encrypt(std::string& a_msg) {
-
-    std::string hexStr;
-    std::string temp;
+        
     std::stringstream ss;
+
     for(auto& c : a_msg) {
         int n = c;
         n ^= 'B';
-        ss << n;
-        ss >> std::hex >> temp;
-        hexStr += temp;
-    }
-    return hexStr;
+        ss << std::hex << n;                 
+    }    
+    return ss.str();
 }
+
+MultiEncryptions::MultiEncryptions(std::vector<std::unique_ptr<IEncryptor>> a_vec) 
+: m_vec(std::move(a_vec))
+{}
+
+std::string MultiEncryptions::Encrypt(std::string& a_msg) {
+    for(auto& enc : m_vec) {
+        a_msg = enc->Encrypt(a_msg);
+    }
+    return a_msg;
+}
+
 
 
 } //messenger

@@ -4,13 +4,11 @@
 #include <memory>
 #include <numeric>
 #include <errno.h>
-
 #include "TCPServerSocket.hpp"
+
 #include "Socket.hpp"
 #include "TCPClientSocket.hpp"
 #include "TcpProtocol.hpp"
-
-
 
 int main() {
 
@@ -19,8 +17,7 @@ int main() {
         Server server(8080);                  
         Protocol proto;
         std::unique_ptr<Client> client = server.Accept(); 
-        std::vector<double> dVec = proto.UnPack(client); 
-        std::cout << dVec.size();  
+        std::vector<double> dVec = proto.UnPack(client);          
         for(auto e : dVec) {
             std::cout << e;
         }                   

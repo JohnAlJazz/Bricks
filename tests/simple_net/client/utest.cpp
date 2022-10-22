@@ -25,24 +25,3 @@ int main() {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-////////////////////////////////
-
-// std::vector<unsigned char> v{'a', 'b', 'c', 'd', 'e', 'a', 'b', 'c', 'd', 'e'};
-    // Client c("127.0.0.1", 8080);
-    // c.Send(v);
-    // for(auto e : v) {
-    //     std::cout << e;
-    // }
-    // std::cout << '\n';

@@ -2,6 +2,7 @@
 #define SENDER_FACTORY_HPP
 
 #include <memory>
+#include <string>
 
 #include "ISender.hpp"
 
@@ -9,11 +10,11 @@ namespace messenger {
 
 class SenderFactory {
 public:
-    explicit SenderFactory(int a_destination = 0);
+    explicit SenderFactory(const std::string a_destination);
     std::unique_ptr<ISender> Get() const;
 
 private:
-    int m_destination;
+    const std::string m_destination;
 };
 
 #include "inl/senderFactory.hxx"

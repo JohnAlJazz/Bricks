@@ -2,6 +2,7 @@
 #define ENCRYPTION_FACTORY_HPP
 
 #include <memory>
+#include <string>
 
 #include "IEncryptor.hpp"
 
@@ -9,11 +10,15 @@ namespace messenger {
 
 class EncryptionFactory {
 public:
-    explicit EncryptionFactory(int a_encryption = 0);
+    explicit EncryptionFactory(const std::string a_encryption);
     std::unique_ptr<IEncryptor> Get();
 
+private:    
+    bool IsMultiEncryptions();
+    std::unique_ptr<IEncryptor> CreateEncryptor(const std::string& a_enc);
+
 private:
-    int m_encryption;
+    const std::string m_encryption;
 };
 
 #include "inl/encryptionFactory.hxx"

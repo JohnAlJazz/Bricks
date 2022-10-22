@@ -2,6 +2,7 @@
 #define ISENDER_HPP
 
 #include <iostream>
+#include <fstream>
 #include <string>
 
 namespace messenger {
@@ -23,14 +24,24 @@ public:
 };
 
 class SendToFile : public ISender {
+public:
+    SendToFile(const std::string a_file);
     void Send(std::string& a_message) override;
+
+private:
+    std::ofstream m_file;
+
 };
 
-// class SendToTcpSocket : public ISender {
+class SendToTCP : public ISender {
+public: 
+    SendToTCP(std::string a_ip, uint16_t a_port);
+    void Send(std::string& a_message) override;
 
-// private:
-//     const std::string& m_message;
-// };
+private:
+    std::string m_ip;
+    uint16_t m_port;
+};
 
 #include "inl/Isender.hxx"
 

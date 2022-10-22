@@ -4,38 +4,39 @@
 
 namespace messenger {
 
+Stdin::Stdin() 
+: m_isEnd(false)
+, m_openMsg(true)
+{}
+
 std::string Stdin::Read() {
     
-    char stop;
-    std::string line;
-    std::string fullMsg;
-    std::cout << "Enter your line\n\n";
-
-    while(stop != '.') {
-        std::getline(std::cin, line);
-        fullMsg += line;
-        fullMsg += '\n';        
-        fullMsg += stop = std::getchar();        
+    if(m_openMsg) {
+        std::cout << "Enter your message\n\n";
+        m_openMsg = false;
     }
-    return fullMsg;
+    std::string line;
+
+    std::getline(std::cin, line);
+    if(line == ".") {
+        m_isEnd = true;               
+    }    
+    return line;
 }
 
-File::File(std::ifstream& a_file) 
+File::File(const std::string& a_file) 
 : m_file(a_file)
+, m_isEnd(false)
 {}
 
 std::string File::Read() {
     
-    // std::string read;
-    // std::string next;
-
-    // while(!m_file.eof()) {
-    //     m_file >> next;
-    //     read += next; 
-    //     read += " ";       
-    // }
-    // return read;
-    return {};
+    std::string line;    
+    getline(m_file, line);    
+    if(m_file.eof()) {
+        m_isEnd = true;          
+    }
+    return line;    
 }
 
 } //messenger

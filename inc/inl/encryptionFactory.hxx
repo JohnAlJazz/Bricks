@@ -1,7 +1,7 @@
 #ifndef ENCRYPTION_FACTROY_HXX
 #define ENCRYPTION_FACTROY_HXX
 
-inline EncryptionFactory::EncryptionFactory(int a_encryption)
+inline EncryptionFactory::EncryptionFactory(const std::string a_encryption)
 : m_encryption(a_encryption)
 {}
 

@@ -1,19 +1,21 @@
 #include "messengerFactory.hpp"
 
+#include <iostream>
+
 namespace messenger {
 
-MessengerFactory::MessengerFactory() 
-: m_config()
+MessengerFactory::MessengerFactory(Configuration& a_config) 
+: m_config(a_config)
 , m_source(m_config.GetSource())
-, m_encryption(m_config.GetEncryptionType())
 , m_destination(m_config.GetDestination())
+, m_encryption(m_config.GetEncryptionType())
 {}
 
-std::unique_ptr<Messenger> MessengerFactory::Get() {
-    auto source = m_source.Get();
-    auto encryption = m_encryption.Get();
+std::unique_ptr<Messenger> MessengerFactory::Get() {    
+    auto source = m_source.Get();    
     auto destination = m_destination.Get();
-    return std::make_unique<Messenger>(std::move(source), std::move(encryption), std::move(destination));    
+    auto encryption = m_encryption.Get();
+    return std::make_unique<Messenger>(std::move(source), std::move(destination), std::move(encryption));    
 }
 
 } //messenger

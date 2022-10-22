@@ -2,18 +2,19 @@
 #define SOURCE_FACTORY_HPP
 
 #include <memory>
+#include <string>
 
-#include <IStream.hpp>
+#include "IStream.hpp"
 
 namespace messenger {
 
 class SourceFactory {
 public:
-    explicit SourceFactory(int a_source = 0);
+    explicit SourceFactory(const std::string a_source);
     std::unique_ptr<IStream> Get();
 
 private:
-    int m_source;
+    const std::string m_source;
 };
 
 } //messenger
