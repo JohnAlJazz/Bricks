@@ -21,7 +21,6 @@ CXXFLAGS+= -Wall -pedantic
 CXXFLAGS+= -Werror
 CXXFLAGS+= -g3
 
-
 SRC_DIR = ../../src/
 INC_DIR = ../../inc/
 

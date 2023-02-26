@@ -12,15 +12,20 @@ Stdin::Stdin()
 std::string Stdin::Read() {
     
     if(m_openMsg) {
-        std::cout << "Enter your message\n\n";
+
+        std::cout << "Enter your message, '.' to end\n\n";
         m_openMsg = false;
     }
+
     std::string line;
 
     std::getline(std::cin, line);
+
     if(line == ".") {
+
         m_isEnd = true;               
-    }    
+    }   
+
     return line;
 }
 
@@ -31,11 +36,15 @@ File::File(const std::string& a_file)
 
 std::string File::Read() {
     
-    std::string line;    
-    getline(m_file, line);    
+    std::string line;  
+
+    getline(m_file, line);  
+
     if(m_file.eof()) {
+
         m_isEnd = true;          
     }
+    
     return line;    
 }
 

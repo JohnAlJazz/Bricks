@@ -11,6 +11,7 @@ namespace messenger {
 class EncryptionFactory {
 public:
     explicit EncryptionFactory(const std::string a_encryption);
+    
     std::unique_ptr<IEncryptor> Get();
 
 private:    

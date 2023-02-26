@@ -11,6 +11,7 @@ namespace messenger {
 class SenderFactory {
 public:
     explicit SenderFactory(const std::string a_destination);
+    
     std::unique_ptr<ISender> Get() const;
 
 private:

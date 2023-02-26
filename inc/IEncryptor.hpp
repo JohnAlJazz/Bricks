@@ -43,6 +43,11 @@ public:
     std::string Encrypt(std::string& a_msg) override;
 };
 
+class ReverseEncryption : public IEncryptor {
+public:
+    std::string Encrypt(std::string& a_msg) override;
+};
+
 class MultiEncryptions : public IEncryptor {
 public:
     explicit MultiEncryptions(std::vector<std::unique_ptr<IEncryptor>> a_vec);

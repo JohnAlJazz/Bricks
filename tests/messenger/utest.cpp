@@ -8,23 +8,27 @@ using namespace messenger;
 
 #ifndef THE_TEST
 
+static std::vector<std::string> MultiEncryptionsVec(char** argv, int argc) {
+
+    std::vector<std::string> encryptions;
+
+    for(int i = 3; i < argc; ++i) {
+
+        encryptions.push_back(argv[i]);
+    }
+
+    return encryptions;
+}
+
 int main(int argc, char* argv[]) { 
-
-    std::fstream newFile;
-    newFile.open("cmd", std::ofstream::out | std::ofstream::trunc);    
-    std::string args;
-
-    for(int i = 1; i < argc; ++i) {
-        args = argv[i];
-        if(i < argc - 1) {
-            args += " ";
-        }               
-        newFile << args;               
-    }       
-    newFile.close();
-    newFile.open("cmd");
     
-    Configuration conf(newFile);
+    if(argc < 4) { 
+
+        return -1;
+    }       
+
+    auto encryptionsVec = MultiEncryptionsVec(argv, argc);
+    Configuration conf(argv[1], argv[2], encryptionsVec);
     MessengerFactory mf(conf);
     auto msg = mf.Get();
     msg->Send();       
@@ -36,38 +40,40 @@ int main(int argc, char* argv[]) {
 
 using namespace messenger;
 
-BEGIN_TEST(test_messenger_wrong_conf_file) //throws a run_time error 
+BEGIN_TEST(test_messenger_wrong_conf_file) 
 
     try {
+
         std::fstream file("blah");
         Configuration conf(file);
         MessengerFactory messengerFact(conf);  
         auto msg = messengerFact.Get();     
         msg->Send(); 
     }
+
     catch(const std::runtime_error& e) {
+
         std::cout << e.what() << '\n';
     }
     
     ASSERT_PASS();
 END_TEST
 
-
 BEGIN_TEST(test_messenger_UPPER_configuration) 
     
-    std::fstream file("upper_config.txt");
+    std::fstream file("./files/upper_config.txt");
     Configuration conf(file);
-    MessengerFactory messengerFact(conf);  
+    MessengerFactory messengerFact(conf);      
     auto msg = messengerFact.Get();     
+
     msg->Send();   
     
     ASSERT_PASS();
 END_TEST
-
 
 BEGIN_TEST(test_messenger_Rot13_configuration) 
     
-    std::fstream file("rot13_config.txt");
+    std::fstream file("./files/rot13_config.txt");
     Configuration conf(file);
     MessengerFactory messengerFact(conf);  
     auto msg = messengerFact.Get();     
@@ -75,11 +81,10 @@ BEGIN_TEST(test_messenger_Rot13_configuration)
     
     ASSERT_PASS();
 END_TEST
-
 
 BEGIN_TEST(test_xor42_to_screen)           
     
-    std::fstream file("xor42");
+    std::fstream file("./files/xor42");
     Configuration conf(file);
     MessengerFactory mf(conf);
     auto msg = mf.Get();
@@ -87,11 +92,10 @@ BEGIN_TEST(test_xor42_to_screen)
 
     ASSERT_PASS();
 END_TEST
-
 
 BEGIN_TEST(test_messenger_upper_from_file_to_screen) 
     
-    std::fstream file("ff.txt");
+    std::fstream file("./files/ff.txt");
     Configuration conf(file);
     MessengerFactory messengerFact(conf);  
     auto msg = messengerFact.Get();     
@@ -99,11 +103,10 @@ BEGIN_TEST(test_messenger_upper_from_file_to_screen)
     
     ASSERT_PASS();
 END_TEST
-
 
 BEGIN_TEST(test_messenger_upper_write_to_file) 
     
-    std::fstream file("upperToFile.txt");
+    std::fstream file("./files/upperToFile.txt");
     Configuration conf(file);
     MessengerFactory messengerFact(conf);  
     auto msg = messengerFact.Get();     
@@ -111,11 +114,10 @@ BEGIN_TEST(test_messenger_upper_write_to_file)
     
     ASSERT_PASS();
 END_TEST
-
 
 BEGIN_TEST(test_messenger_upper_file_to_file) 
     
-    std::fstream file("file_to_file");
+    std::fstream file("./files/file_to_file");
     Configuration conf(file);
     MessengerFactory messengerFact(conf);  
     auto msg = messengerFact.Get();     
@@ -124,10 +126,9 @@ BEGIN_TEST(test_messenger_upper_file_to_file)
     ASSERT_PASS();
 END_TEST
 
-
 BEGIN_TEST(test_multi_to_screen)           
     
-    std::fstream file("multi");
+    std::fstream file("./files/multi");
     Configuration conf(file);
     MessengerFactory mf(conf);
     auto msg = mf.Get();
@@ -136,18 +137,17 @@ BEGIN_TEST(test_multi_to_screen)
     ASSERT_PASS();
 END_TEST
 
+BEGIN_TEST(test_screen_to_tcp_server)           
+        
+    std::fstream file("./files/toTcp");
+    Configuration conf(file);
+    MessengerFactory mf(conf);
+    auto msg = mf.Get();
+    msg->Send();
 
-BEGIN_TEST(test_screen_to_tcp)           
+    ASSERT_PASS();
     
-    std::fstream file("toTcp");
-    Configuration conf(file);
-    MessengerFactory mf(conf);
-    auto msg = mf.Get();
-    msg->Send();
-
-    ASSERT_PASS();
 END_TEST
-
 
 BEGIN_SUITE(Its what you learn after you know it all that counts)
 
@@ -159,11 +159,8 @@ BEGIN_SUITE(Its what you learn after you know it all that counts)
     // TEST(test_messenger_upper_write_to_file)
     // TEST(test_messenger_upper_file_to_file)
     // TEST(test_multi_to_screen) 
-    TEST(test_screen_to_tcp)   
+    TEST(test_screen_to_tcp_server)  
 
 END_SUITE
 
 #endif
-
-
-

@@ -5,11 +5,14 @@
 #include <fstream>
 #include <string>
 
+#include "TCPClientSocket.hpp"
+
 namespace messenger {
 
 class ISender {
 public:
     virtual ~ISender() = default;
+
     virtual void Send(std::string& a_message) = 0;
 
 protected: 
@@ -30,7 +33,6 @@ public:
 
 private:
     std::ofstream m_file;
-
 };
 
 class SendToTCP : public ISender {
@@ -41,6 +43,7 @@ public:
 private:
     std::string m_ip;
     uint16_t m_port;
+    net::Client m_client;
 };
 
 #include "inl/Isender.hxx"

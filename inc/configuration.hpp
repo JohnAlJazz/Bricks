@@ -3,13 +3,19 @@
 
 #include <fstream>
 #include <string>
+#include <vector>
 
 namespace messenger {
 
-//this class will read from a config file => src, dest and encrypt type for the use of the Messenger
 class Configuration {
+private:
+    using CStr = const std::string;
+    using Encryptions = std::vector<std::string>&;
+
 public:
-    explicit Configuration(std::fstream& a_configFile);    
+    explicit Configuration(std::fstream& a_configFile);
+    //works for 1 encryption. TODO: parse through 1 string...
+    explicit Configuration(CStr a_source, CStr a_destination, Encryptions a_encryptions);   
     std::string GetSource(); 
     std::string GetEncryptionType();
     std::string GetDestination();
@@ -18,12 +24,16 @@ private:
     std::string Source();
     std::string Encrypt();
     std::string Destination();
+    std::string EncryptionsVec(Encryptions a_encryptions);
 
 private:
     std::fstream& m_configFile;
     std::string m_source;
     std::string m_destination;
     std::string m_encrypt;
+
+private:
+    std::fstream m_dummy;
 };
 
 #include "inl/configuration.hxx"

@@ -1,23 +1,30 @@
+#include <iostream>
+
 #include "sourceFactory.hpp"
 
 namespace messenger {
 
-SourceFactory::SourceFactory(int a_source)
+SourceFactory::SourceFactory(const std::string a_source)
 : m_source(a_source)
-{}
+{  
+  if(!a_source.length()) {
+    
+    throw std::runtime_error("no available source\n");   
+  }
+}
 
 std::unique_ptr<IStream> SourceFactory::Get() {
 
-    switch(m_source) {
-        case 0:
-            return std::make_unique<Stdin>();
+    if(m_source == "stdin") {
+      
+      return std::make_unique<Stdin>();
+    } 
 
-        // case 1:                             
-        //     return std::make_unique<File>();
-                        
-        default: 
-            throw 111;            
-    }
+    //read from file
+    else {
+      
+      return std::make_unique<File>(m_source);
+    } 
 }
 
-}//messenger
+} //messenger

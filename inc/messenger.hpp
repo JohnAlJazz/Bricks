@@ -12,8 +12,13 @@
 namespace messenger{
 
 class Messenger {
+private:
+    using Stream = std::unique_ptr<IStream>;
+    using Destination = std::unique_ptr<ISender>;
+    using Encryptor = std::unique_ptr<IEncryptor>;
+
 public:
-    Messenger(std::unique_ptr<IStream> a_stream, std::unique_ptr<ISender> a_destination, std::unique_ptr<IEncryptor> a_encryptor);   
+    Messenger(Stream a_stream, Destination a_destination, Encryptor a_encryptor);   
     
     void Send() const;
 

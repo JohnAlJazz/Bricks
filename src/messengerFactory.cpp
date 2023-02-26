@@ -11,10 +11,12 @@ MessengerFactory::MessengerFactory(Configuration& a_config)
 , m_encryption(m_config.GetEncryptionType())
 {}
 
-std::unique_ptr<Messenger> MessengerFactory::Get() {    
+std::unique_ptr<Messenger> MessengerFactory::Get() {  
+
     auto source = m_source.Get();    
     auto destination = m_destination.Get();
     auto encryption = m_encryption.Get();
+    
     return std::make_unique<Messenger>(std::move(source), std::move(destination), std::move(encryption));    
 }
 

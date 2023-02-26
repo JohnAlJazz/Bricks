@@ -27,7 +27,6 @@ CXXFLAGS+= -g3
 
 LDFLAGS+= -pthread
 
-
 SRC_DIR = ../../src/
 INC_DIR = ../../inc/
 
