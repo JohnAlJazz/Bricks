@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include "gameExecuter.hpp"
+#include "../inc/gameExecuter.hpp"
 
 namespace bricks {
 
