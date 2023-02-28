@@ -1,4 +1,0 @@
-#ifndef MESSENGER_HXX
-#define MESSENGER_HXX
-
-#endif //MESSENGER_HXX

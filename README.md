@@ -1,2 +1,0 @@
-# cpp course
-Home work
