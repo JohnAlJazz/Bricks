@@ -36,8 +36,6 @@ private:
     std::fstream m_dummy;
 };
 
-#include "inl/configuration.hxx"
-
 } //messenger
 
 #endif //CONFIGURATION_HPP
