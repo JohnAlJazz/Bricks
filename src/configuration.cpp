@@ -103,5 +103,4 @@ std::string Configuration::GetEncryptionType() {
     return m_encrypt;
 }
 
-
 } //messenger

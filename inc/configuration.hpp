@@ -36,6 +36,7 @@ private:
     std::fstream m_dummy;
 };
 
+
 } //messenger
 
 #endif //CONFIGURATION_HPP
